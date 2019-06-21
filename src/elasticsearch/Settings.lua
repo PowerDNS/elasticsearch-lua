@@ -133,7 +133,9 @@ function Settings:setParameters()
       host = self.hosts[1].host,
       port = self.hosts[1].port,
       username = self.hosts[1].username,
-      password = self.hosts[1].password
+      password = self.hosts[1].password,
+      verify = self.hosts[1].verify,
+      cafile = self.hosts[1].cafile
     }
     self.hosts = {}
     for i, v in pairs(self.user_hosts) do
@@ -142,7 +144,9 @@ function Settings:setParameters()
         host = default_host.host,
         port = default_host.port,
         username = default_host.username,
-        password = default_host.password
+        password = default_host.password,
+        verify = default_host.verify,
+        cafile = default_host.cafile
       }
       self:checkTable(self.hosts[i], v)
     end
@@ -171,6 +175,8 @@ function Settings:setConnectionSettings()
       port = host.port,
       username = host.username,
       password = host.password,
+      verify = host.verify,
+      cafile = host.cafile,
       pingTimeout = self.params.pingTimeout,
       logger = self.logger,
       requestEngine = self.params.requestEngine

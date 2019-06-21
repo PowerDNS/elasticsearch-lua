@@ -2,6 +2,7 @@
 -- Importing module
 -------------------------------------------------------------------------------
 local http = require "socket.http"
+local https = require "ssl.https"
 local url = require "socket.url"
 local table = require "table"
 local ltn12 = require "ltn12"
@@ -34,6 +35,10 @@ Connection.lastPing = 0
 Connection.failedPings = 0
 -- Whether the client is alive or not
 Connection.alive = false
+-- How to verify HTTPS certs
+Connection.verify = "none"
+-- Location of ca cert file if verification is set to "peer"
+Connection.cafile = ""
 -- The logger instance
 Connection.logger = nil
 -- The standard requester
@@ -85,14 +90,23 @@ function Connection:request(method, uri, params, body, timeout)
   end
   if timeout ~= nil then
     -- Setting timeout for request
-    http.TIMEOUT = timeout
+     http.TIMEOUT = timeout
+     https.TIMEOUT = timeout
   end
 
   -- Making the actual request
-  response.code, response.statusCode, response.headers, response.statusLine
-    = http.request(request)
-  self.logger:debug("Got HTTP " .. response.statusCode)
-  http.TIMEOUT = nil
+  if (self.protocol == "https")
+  then
+     response.code, response.statusCode, response.headers, response.statusLine
+        = https.request(request)
+     self.logger:debug("Got HTTPS " .. response.statusCode)
+     https.TIMEOUT = nil
+  else
+     response.code, response.statusCode, response.headers, response.statusLine
+        = http.request(request)
+     self.logger:debug("Got HTTP " .. response.statusCode)
+     http.TIMEOUT = nil
+  end
   response.body = table.concat(responseBody)
 
   return response
@@ -151,7 +165,9 @@ function Connection:buildURI(uri, params)
     scheme = self.protocol,
     host = self.host,
     port = self.port,
-    path = uri
+    path = uri,
+    verify = self.verify,
+    cafile = self.cafile
   }
   if params ~= nil then
     urlComponents.query = self:buildQuery(params)
