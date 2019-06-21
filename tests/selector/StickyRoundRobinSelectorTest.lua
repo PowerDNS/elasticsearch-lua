@@ -27,11 +27,15 @@ function setup()
   connections = {}
   local logger = Logger:new()
   logger:setLogLevel("off")
+  local protocol = os.getenv("ES_TEST_PROTOCOL")
+  if protocol == nil then protocol = "http" end
+  local port = os.getenv("ES_TEST_PORT")
+  if port == nil then port = 9200 end
   for i = 1, 5 do
     connections[i] = connection:new{
-      protocol = "http",
+      protocol = protocol,
       host = "localhost",
-      port = 9200,
+      port = port,
       username = nil,
       password = nil,
       pingTimeout = 1,
