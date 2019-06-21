@@ -12,7 +12,9 @@ env:
 
 before_install:
   - sudo apt-get update && sudo apt-get install wget -y
-  - .travis/install_es.sh
+  - cd .travis
+  - docker-compose -f create-certs.yml up
+  - docker-compose up
   - source .travis/setenv_lua.sh
   - luarocks install lunitx
   - luarocks install luacov
