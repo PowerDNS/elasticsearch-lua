@@ -7,18 +7,20 @@ env:
     - LUAROCKS=2.2.2
   matrix:
     - LUA=lua5.1
-    - LUA=luajit2.0  # current head of 2.0 branch
-    # - LUA=luajit2.1  # current head of 2.1 branch
+    - LUA=luajit2.0  # current head of stable 2.0 branch
+    #- LUA=luajit2.1  # current head of unstable 2.1 branch
 
 before_install:
   - sudo apt-get update && sudo apt-get install wget -y
-  - cd .travis
+  - cd .travis/docker
   - docker-compose -f create-certs.yml up
-  - docker-compose up
+  - docker-compose up -d
+  - cd ..
   - source .travis/setenv_lua.sh
   - luarocks install lunitx
   - luarocks install luacov
   - luarocks install luacov-coveralls
+  - cd ..
 
 install:
   - luarocks make rockspecs/elasticsearch-lua-1.0.3-1.rockspec
