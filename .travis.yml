@@ -2,9 +2,13 @@ language: c
 
 sudo: required
 
+services:
+  - docker
+
 env:
   global:
     - LUAROCKS=2.2.2
+    - DOCKER_COMPOSE_VERSION=1.23.2
   matrix:
     - LUA=lua5.1
     - LUA=luajit2.0  # current head of stable 2.0 branch
@@ -12,6 +16,10 @@ env:
 
 before_install:
   - sudo apt-get update && sudo apt-get install wget -y
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
   - cd .travis/docker
   - docker-compose -f create-certs.yml up
   - docker-compose up -d
