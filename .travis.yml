@@ -9,6 +9,9 @@ env:
   global:
     - LUAROCKS=2.2.2
     - DOCKER_COMPOSE_VERSION=1.23.2
+    - ES_USERNAME=elastic
+    - ES_PASSWORD=changeme
+    - CAFILE=${TRAVIS_BUILD_DIR}/.travis/docker/certs/ca/ca.crt 
 
 matrix:
   include:
@@ -24,8 +27,8 @@ matrix:
       - LUA=lua5.1
       - ES_TEST_PROTOCOL=https
       - ES_TEST_PORT=19200
-      - CACERT_PATH=--cacert .travis/docker/certs/ca/ca.crt
-      - ELASTIC_CREDS=-u elastic:changeme
+      - CACERT_PATH=--cacert ${CAFILE}
+      - ELASTIC_CREDS=-u ${ES_USERNAME}:{ES_PASSWORD}
   - name: "LuaJIT 2.0 HTTP"
     env:
       - LUA=luajit2.0  # current head of stable 2.0 branch
@@ -38,8 +41,8 @@ matrix:
       - LUA=luajit2.0  # current head of stable 2.0 branch
       - ES_TEST_PROTOCOL=https
       - ES_TEST_PORT=19200
-      - CACERT_PATH=--cacert .travis/docker/certs/ca/ca.crt
-      - ELASTIC_CREDS=-u elastic:changeme
+      - CACERT_PATH=--cacert ${CAFILE}
+      - ELASTIC_CREDS=-u ${ES_USERNAME}:{ES_PASSWORD}
   #- LUA=luajit2.1  # current head of unstable 2.1 branch
 
 before_install:
@@ -62,7 +65,7 @@ install:
   - luarocks make rockspecs/elasticsearch-lua-1.0.3-1.rockspec
 
 before_script:
-  - echo 'elasticsearch version ' && curl ${CACERT_PATH} ${ELASTIC_CREDS} ${ES_TEST_PROTOCOL}://localhost:9200/
+  - echo 'elasticsearch version ' && curl ${CACERT_PATH} ${ELASTIC_CREDS} ${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/
   - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-reindex-index-2"
   - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-reindex-index-1"
   - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-test-index"
