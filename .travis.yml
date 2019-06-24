@@ -70,7 +70,7 @@ before_script:
   - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-reindex-index-1"
   - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-test-index"
   - echo 'Ensure elasticsearch has enough fields configured'
-  - "curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/_settings" -d '{ \"index.mapping.total_fields.limit\": 10000 }' -H 'Content-Type: application/json'"
+  - "curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} ${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/_settings -d '{ \"index.mapping.total_fields.limit\": 10000 }' -H 'Content-Type: application/json'"
 
 script:
   - cd tests
