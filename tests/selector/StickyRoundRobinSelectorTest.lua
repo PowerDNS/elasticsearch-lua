@@ -31,13 +31,15 @@ function setup()
   if protocol == nil then protocol = "http" end
   local port = os.getenv("ES_TEST_PORT")
   if port == nil then port = 9200 end
+  local username = os.getenv("ES_USERNAME")
+  local password = os.getenv("ES_PASSWORD")
   for i = 1, 5 do
     connections[i] = connection:new{
       protocol = protocol,
       host = "localhost",
       port = port,
-      username = nil,
-      password = nil,
+      username = username,
+      password = password,
       pingTimeout = 1,
       logger = logger
     }
