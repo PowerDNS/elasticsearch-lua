@@ -30,8 +30,10 @@ Settings.hosts = {
     protocol = "http",
     host = "localhost",
     port = 9200,
-    username = nil,
-    password = nil
+    username = "",
+    password = "",
+    verify = "none",
+    cafile = ""
   }
 }
 
