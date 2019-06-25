@@ -65,12 +65,7 @@ install:
   - luarocks make rockspecs/elasticsearch-lua-1.0.3-1.rockspec
 
 before_script:
-  - echo 'elasticsearch version ' && curl ${CACERT_PATH} ${ELASTIC_CREDS} ${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/
-  - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-reindex-index-2"
-  - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-reindex-index-1"
-  - curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} "${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/elasticsearch-lua-test-index"
-  - echo 'Ensure elasticsearch has enough fields configured'
-  - "curl -XPUT ${CACERT_PATH} ${ELASTIC_CREDS} ${ES_TEST_PROTOCOL}://localhost:${ES_TEST_PORT}/_settings -d '{ \"index.mapping.total_fields.limit\": 10000 }' -H 'Content-Type: application/json'"
+  - bash -x .travis/before_script.sh
 
 script:
   - cd tests
