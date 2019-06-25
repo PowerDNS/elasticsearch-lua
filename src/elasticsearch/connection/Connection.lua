@@ -75,18 +75,17 @@ function Connection:request(method, uri, params, body, timeout)
     url = uri,
     sink = ltn12.sink.table(responseBody)
   }
+  request.headers = {}
   if body ~= nil then
     -- Adding body to request
-    request.headers = {
-       ["Content-Length"] = body:len(),
-       ["Content-Type"] = 'application/json'
-    }
-    -- Adding auth to request
-    if self.username ~= nil and self.password ~= nil then
-      local authStr = base64:enc(self.username .. ':' .. self.password)
-      request.headers['Authorization'] = 'Basic ' .. authStr
-    end
+    request.headers["Content-Length"] = body:len()
+    request.headers["Content-Type"] = 'application/json'
     request.source = ltn12.source.string(body)
+  end
+  -- Adding auth to request
+  if self.username ~= nil and self.password ~= nil then
+     local authStr = base64:enc(self.username .. ':' .. self.password)
+     request.headers['Authorization'] = 'Basic ' .. authStr
   end
   if timeout ~= nil then
     -- Setting timeout for request
@@ -97,6 +96,11 @@ function Connection:request(method, uri, params, body, timeout)
   -- Making the actual request
   if (self.protocol == "https")
   then
+     request.verify = self.verify
+     if self.cafile ~= nil and self.cafile ~= "" and self.verify ~= "none"
+     then
+        request.cafile = self.cafile
+     end
      response.code, response.statusCode, response.headers, response.statusLine
         = https.request(request)
      self.logger:debug("Got HTTPS " .. response.statusCode)
@@ -165,9 +169,7 @@ function Connection:buildURI(uri, params)
     scheme = self.protocol,
     host = self.host,
     port = self.port,
-    path = uri,
-    verify = self.verify,
-    cafile = self.cafile
+    path = uri
   }
   if params ~= nil then
     urlComponents.query = self:buildQuery(params)
