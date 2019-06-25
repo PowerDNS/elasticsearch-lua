@@ -62,10 +62,10 @@ end
 -- Testing the URI builder
 function buildURITest()
   local url = con:buildURI("/path", {a="a_s", b="b_s"})
-  assert_true("http://localhost:9200/path?a=a_s&b=b_s" == url or 
-    "http://localhost:9200/path?b=b_s&a=a_s" == url)
+  assert_true(con.protocol .. "://" .. con.host .. ":" .. con.port .. "/path?a=a_s&b=b_s" == url or 
+    con.protocol .. "://" .. con.host .. ":" .. con.port .. "/path?b=b_s&a=a_s" == url)
   url = con:buildURI("/path", {a="a_s"})
-  assert_not_equal("http://localhost:9200/path?a=a_s&b=b_s", url)
+  assert_not_equal(con.protocol .. "://" .. con.host .. ":" .. con.port .. "/path?a=a_s&b=b_s", url)
 end
 
 -- Testing the request function
