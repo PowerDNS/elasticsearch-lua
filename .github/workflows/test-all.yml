@@ -1,0 +1,55 @@
+---
+name: 'Test everything'
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Once per month check it's still working
+    - cron: '0 22 1 * *'
+
+jobs:
+  test_all:
+    name: test_all
+    env:
+      DOCKER_COMPOSE_VERSION: 1.29.2
+      LUAROCKS: 2.2.2
+      ES_USERNAME: elastic
+      ES_PASSWORD: changeme
+      CAFILE: $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
+      ES_TEST_PROTOCOL: http
+      ES_TEST_PORT: 9200
+      CACERT_PATH: 
+      ELASTIC_CREDS:
+    strategy:
+      matrix:
+        lua: [5.1, 5.2, 5.3, luajit2.0]
+        protocol: [http, https]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 5
+          submodules: recursive
+      - if: ${{ matrix.protocol == 'https' }}
+        env:
+          ES_TEST_PROTOCOL: https
+          ES_TEST_PORT: 19200
+          CACERT_PATH: --cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
+          ELASTIC_CREDS: -u elastic:changeme
+      - name: install dependencies
+        run: sudo apt-get -y update && sudo apt-get install wget openssl -y
+      - name: install docker-compose
+        run: curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
+      - name: run elasticsearch
+        run: cd docker && docker-compose -f create-certs.yml up && docker-compose up -d && cd ..
+      - name: setup test environment
+        run: source tests/gh_actions/setenv_lua.sh
+      - name: install luarocks
+        run: luarocks install lunitx && luarocks install luacov && luarocks install && luacov-coveralls && luarocks install luasec 0.7-1
+      - name: setup elasticsearch
+        run: bash -x tests/gh_actions/setup_elastic.sh
+      - name: make the elasticsearch-lua rockspec
+        run: luarocks make rockspecs/elasticsearch-lua-1.0.6-1.rockspec
+      - name: run the tests
+        run: cd tests && lua run-tests.lua
