@@ -37,6 +37,7 @@ jobs:
           ES_TEST_PORT: 19200
           CACERT_PATH: --cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
           ELASTIC_CREDS: -u elastic:changeme
+        run: echo 'setting conditional env vars'
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: install docker-compose
