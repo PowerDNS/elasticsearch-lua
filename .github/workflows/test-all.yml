@@ -21,6 +21,7 @@ jobs:
       ES_TEST_PORT: 9200
       CACERT_PATH: 
       ELASTIC_CREDS:
+      PROTOCOL: HTTP
     strategy:
       matrix:
         lua: [5.1, 5.2, 5.3, luajit2.0]
@@ -37,7 +38,12 @@ jobs:
           ES_TEST_PORT: 19200
           CACERT_PATH: --cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
           ELASTIC_CREDS: -u elastic:changeme
+          PROTOCOL: https
         run: echo 'setting conditional env vars'
+      - name: set lua env variable
+        env:
+          LUA: ${{ matrix.lua }}
+        run: echo 'setting lua env var'
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: install docker-compose
