@@ -45,7 +45,7 @@ jobs:
       - name: Add lua things to path
         run: echo "$HOME/.lua:$HOME/.local/bin:${GITHUB_WORKSPACE}/install/luarocks/bin" >> $GITHUB_PATH
       - name: install luarocks
-        run: luarocks install lunitx && luarocks install luacov && luarocks install && luacov-coveralls && luarocks install luasec 0.7-1
+        run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec 0.7-1
       - name: setup elasticsearch
         run: bash -x tests/gh_actions/setup_elastic.sh
       - name: make the elasticsearch-lua rockspec
