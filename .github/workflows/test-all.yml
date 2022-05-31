@@ -24,7 +24,7 @@ jobs:
       PROTOCOL: HTTP
     strategy:
       matrix:
-        lua: [5.1, 5.2, 5.3, luajit2.0]
+        lua: [lua5.1, lua5.2, lua5.3, luajit2.0]
         protocol: [http, https]
     runs-on: ubuntu-20.04
     steps:
