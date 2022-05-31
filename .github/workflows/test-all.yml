@@ -32,18 +32,7 @@ jobs:
         with:
           fetch-depth: 5
           submodules: recursive
-      - if: ${{ matrix.protocol == 'https' }}
-        env:
-          ES_TEST_PROTOCOL: https
-          ES_TEST_PORT: 19200
-          CACERT_PATH: --cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
-          ELASTIC_CREDS: -u elastic:changeme
-          PROTOCOL: https
         run: echo 'setting conditional env vars'
-      - name: set lua env variable
-        env:
-          LUA: ${{ matrix.lua }}
-        run: echo 'setting lua env var'
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: install docker-compose
@@ -51,6 +40,8 @@ jobs:
       - name: run elasticsearch
         run: cd docker && docker-compose -f create-certs.yml up && docker-compose up -d && cd ..
       - name: setup test environment
+        env:
+          LUA: ${{ matrix.lua }}
         run: source tests/gh_actions/setenv_lua.sh
       - name: install luarocks
         run: luarocks install lunitx && luarocks install luacov && luarocks install && luacov-coveralls && luarocks install luasec 0.7-1
@@ -58,5 +49,15 @@ jobs:
         run: bash -x tests/gh_actions/setup_elastic.sh
       - name: make the elasticsearch-lua rockspec
         run: luarocks make rockspecs/elasticsearch-lua-1.0.6-1.rockspec
-      - name: run the tests
+      - name: run the tests for https
+        if: ${{ matrix.protocol == 'https' }}
+        env:
+          ES_TEST_PROTOCOL: https
+          ES_TEST_PORT: 19200
+          CACERT_PATH: --cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
+          ELASTIC_CREDS: -u elastic:changeme
+          PROTOCOL: https
+        run: cd tests && lua run-tests.lua
+      - name: run the tests for http
+        if: ${{ matrix.protocol == 'http' }}
         run: cd tests && lua run-tests.lua
