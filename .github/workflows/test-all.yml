@@ -46,6 +46,9 @@ jobs:
         run: echo "$HOME/.lua:$HOME/.local/bin:${GITHUB_WORKSPACE}/install/luarocks/bin" >> $GITHUB_PATH
       - name: Setup the Lua path itself
         run: luarocks path >lpath.sh && source lpath.sh
+        env:
+          LUA_PATH: $LUA_PATH
+          LUA_CPATH: $LUA_CPATH
       - run: echo $LUA_PATH
       - name: install luarocks
         run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec 0.7-1
