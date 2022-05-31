@@ -32,7 +32,6 @@ jobs:
         with:
           fetch-depth: 5
           submodules: recursive
-        run: echo 'setting conditional env vars'
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: install docker-compose
