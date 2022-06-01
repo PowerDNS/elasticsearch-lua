@@ -32,8 +32,6 @@ jobs:
         with:
           fetch-depth: 5
           submodules: recursive
-      - run: echo "/home/foo" >> ${{ env.LUA_CPATH }}
-      - run: echo ${{ env.LUA_CPATH }}
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: install docker-compose
