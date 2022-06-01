@@ -32,6 +32,8 @@ jobs:
         with:
           fetch-depth: 5
           submodules: recursive
+      - run: echo "/home/foo" >> ${{ env.LUA_CPATH }}
+      - run: echo ${{ env.LUA_CPATH }}
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: install docker-compose
@@ -44,12 +46,6 @@ jobs:
         run: source tests/gh_actions/setenv_lua.sh
       - name: Add lua things to path
         run: echo "$HOME/.lua:$HOME/.local/bin:${GITHUB_WORKSPACE}/install/luarocks/bin" >> $GITHUB_PATH
-      - name: Setup the Lua path itself
-        run: luarocks path >lpath.sh && source lpath.sh
-        env:
-          LUA_PATH: $LUA_PATH
-          LUA_CPATH: $LUA_CPATH
-      - run: echo $LUA_PATH
       - name: install luarocks
         run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec 0.7-1
       - name: setup elasticsearch
@@ -64,7 +60,8 @@ jobs:
           CACERT_PATH: --cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt
           ELASTIC_CREDS: -u elastic:changeme
           PROTOCOL: https
-        run: cd tests && lua run-tests.lua
+        run: cd tests && luarocks path >lpath.sh && source lpath.sh && lua run-tests.lua
       - name: run the tests for http
         if: ${{ matrix.protocol == 'http' }}
-        run: cd tests && lua run-tests.lua
+        run: cd tests && luarocks path >lpath.sh && source lpath.sh && lua run-tests.lua
+
