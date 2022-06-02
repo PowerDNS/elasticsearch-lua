@@ -35,16 +35,28 @@ function setup.init()
    local res, err = client.indices:create{
       index = TEST_INDEX
    }
+   if res == nil
+   then
+      print("Could not create index " .. TEST_INDEX .. " [" .. err .. "]" .. "\n")
+   end
       
-   res, status = client.indices:create{
+   res, err = client.indices:create{
       index = REINDEX_INDEX1
    }
+   if res == nil
+   then
+      print("Could not create index " .. REINDEX_INDEX1  .. " [" .. err .. "]" .. "\n")
+   end
 
-   res, status = client.indices:create{
+   res, err = client.indices:create{
       index = REINDEX_INDEX2
    }
+   if res == nil
+   then
+      print("Could not create index " .. REINDEX_INDEX2  .. " [" .. err .. "]" .. "\n")
+   end
 
-   res, status = client.indices:putSettings{
+   res, err = client.indices:putSettings{
       index = _all,
       body = {
          index = {
@@ -56,6 +68,10 @@ function setup.init()
          }
       }
    }
+   if res == nil
+   then
+      print("Could not change mapping fields limit [" .. err .. "]" .. "\n")
+   end
 end
 
 return setup;
