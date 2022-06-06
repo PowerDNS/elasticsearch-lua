@@ -44,7 +44,7 @@ jobs:
       - name: install docker-compose
         run: curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
       - name: run elasticsearch
-        run: cd docker && docker-compose -f create-certs.yml up && docker-compose up -d && cd ..
+        run: cd docker && docker-compose -f create-certs.yml up && cp docker-compose.yml.${{ matrix.elastic }} docker-compose.yml && docker-compose up -d && cd ..
       - name: setup test environment
         env:
           LUA: ${{ matrix.lua }}

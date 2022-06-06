@@ -1,16 +1,6 @@
 version: '2.2'
 
 services:
-  es01:
-    container_name: es01
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
-    environment:
-      - node.name=es01
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.license.self_generated.type=trial 
-    ports:
-      - 9200:9200
-
   es02:
     container_name: es02
     image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
@@ -18,8 +8,8 @@ services:
       - node.name=es02
       - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=single-node
       - xpack.license.self_generated.type=trial
+      - discovery.type=single-node
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.key=$CERTS_DIR/es02/es02.key
@@ -30,7 +20,8 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.transport.ssl.certificate=$CERTS_DIR/es02/es02.crt
       - xpack.security.transport.ssl.key=$CERTS_DIR/es02/es02.key
-    volumes: ['esdata_02:/usr/share/elasticsearch/data', './certs:$CERTS_DIR']
+    #volumes: ['esdata_02:/usr/share/elasticsearch/data', './certs:$CERTS_DIR']
+    volumes: ['./certs:$CERTS_DIR']
     ports:
       - 19200:9200
     healthcheck:
