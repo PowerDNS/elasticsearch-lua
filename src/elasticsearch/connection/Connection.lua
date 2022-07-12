@@ -6,7 +6,7 @@ local https = require "ssl.https"
 local url = require "socket.url"
 local table = require "table"
 local ltn12 = require "ltn12"
-local base64 = require "elasticsearch.Base64"
+local mime = require "mime"
 
 -------------------------------------------------------------------------------
 -- Declaring module
@@ -84,7 +84,7 @@ function Connection:request(method, uri, params, body, timeout)
   end
   -- Adding auth to request
   if self.username ~= nil and self.password ~= nil then
-     local authStr = base64:enc(self.username .. ':' .. self.password)
+     local authStr, foo = mime.b64(self.username .. ':' .. self.password)
      request.headers['Authorization'] = 'Basic ' .. authStr
   end
   if timeout ~= nil then
