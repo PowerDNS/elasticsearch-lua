@@ -54,7 +54,7 @@ jobs:
       - name: install luarocks
         run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec 0.7-1
       - name: make the elasticsearch-lua rockspec
-        run: luarocks make rockspecs/elasticsearch-lua-1.0.10-1.rockspec
+        run: luarocks make rockspecs/elasticsearch-lua-1.0.11-1.rockspec
       - name: run the tests for el8
         if: ${{ matrix.elastic == 'el8' }}
         env:
