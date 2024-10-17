@@ -45,12 +45,10 @@ end
 -------------------------------------------------------------------------------
 function MTermVectors:getUri()
   local uri = "/_mtermvectors"
-  if self.index ~= nil and self.type ~= nil then
-    uri = "/" .. self.index .. "/" .. self.type .. uri
-  elseif self.index ~= nil then
+  if self.index ~= nil then
     uri = "/" .. self.index .. uri
-  elseif self.type ~= nil then
-    uri = "/_all/" .. self.type .. uri
+  else
+    uri = "/_all/" .. uri
   end
   return uri
 end

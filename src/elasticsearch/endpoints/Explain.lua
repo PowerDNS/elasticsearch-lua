@@ -52,10 +52,7 @@ function Explain:getUri()
   if self.index == nil then
     return nil, "index not specified for Explain"
   end
-  if self.type == nil then
-    return nil, "type not specified for Explain"
-  end
-  return "/" .. self.index .. "/" .. self.type .. "/" .. self.id .. "/_explain"
+  return "/" .. self.index .. "/" .. self.id .. "/_explain"
 end
 
 -------------------------------------------------------------------------------

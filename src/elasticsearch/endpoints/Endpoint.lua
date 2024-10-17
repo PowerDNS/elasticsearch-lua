@@ -81,8 +81,6 @@ function Endpoint:setParams(params)
   for i, v in pairs(params) do
     if i == "index" then
       self.index = v
-    elseif i == "type" then
-      self.type = v
     elseif i == "id" then
       self.id = v
     elseif i == "body" then

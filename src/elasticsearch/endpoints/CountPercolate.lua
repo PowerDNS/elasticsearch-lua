@@ -43,10 +43,7 @@ function CountPercolate:getUri()
   if self.index == nil then
     return nil, "index not specified for CountPercolate"
   end
-  if self.type == nil then
-    return nil, "type not specified for CountPercolate"
-  end
-  local uri = "/" .. self.index .. "/" .. self.type
+  local uri = "/" .. self.index
   if self.id ~= nil then
     uri = uri .. "/" .. self.id
   end

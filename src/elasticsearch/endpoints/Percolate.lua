@@ -46,10 +46,7 @@ function Percolate:getUri()
   if self.index == nil then
     return nil, "index not specified for Percolate"
   end
-  if self.type == nil then
-    return nil, "type not specified for Percolate"
-  end
-  local uri = "/" .. self.index .. "/" .. self.type
+  local uri = "/" .. self.index
   if self.id ~= nil then
     uri = uri .. "/" .. self.id
   end

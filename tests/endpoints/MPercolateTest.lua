@@ -31,14 +31,13 @@ end
 -- Testing request
 function requestTest()
   mockTransport.method = "POST"
-  mockTransport.uri = "/twitter/tweet/_mpercolate"
+  mockTransport.uri = "/twitter/_mpercolate"
   mockTransport.params = {}
 
   local MPercolateBody = {
     {
       percolate = {
-        index = "twitter",
-        type = "tweet"
+        index = "twitter"
       }
     },
     {
@@ -55,7 +54,6 @@ function requestTest()
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet",
     body = MPercolateBody
   }
   local _, err = endpoint:request()

@@ -37,14 +37,9 @@ end
 -- @return    string    The URI
 -------------------------------------------------------------------------------
 function SearchShards:getUri()
-  if self.index ~= nil and self.type ~= nil then
-    return "/" .. self.index .. "/" .. self.type .. "/_search_shards"
-  elseif self.index ~= nil and self.type == nil then
+  if self.index ~= nil then
     return "/" .. self.index .. "/_search_shards"
-  elseif self.index == nil and self.type ~= nil then
-    return "/_all/" .. self.type .. "/_search_shards"
   end
-  -- Both are nil
   return "/_search_shards"
 end
 

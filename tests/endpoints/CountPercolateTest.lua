@@ -31,13 +31,12 @@ end
 -- Testing without id
 function requestTest()
   mockTransport.method = "GET"
-  mockTransport.uri = "/my-index/my-type/_percolate/count"
+  mockTransport.uri = "/my-index/_percolate/count"
   mockTransport.params = {}
   mockTransport.body = nil
 
   endpoint:setParams{
-    index = "my-index",
-    type = "my-type"
+    index = "my-index"
   }
 
   local _, err = endpoint:request()
@@ -47,13 +46,12 @@ end
 -- Testing with id
 function requestIdTest()
   mockTransport.method = "GET"
-  mockTransport.uri = "/my-index/my-type/my-id/_percolate/count"
+  mockTransport.uri = "/my-index/my-id/_percolate/count"
   mockTransport.params = {}
   mockTransport.body = nil
 
   endpoint:setParams{
     index = "my-index",
-    type = "my-type",
     id = "my-id"
   }
 

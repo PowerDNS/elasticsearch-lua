@@ -30,7 +30,7 @@ end
 -- Testing request
 function requestTest()
   mockTransport.method = "GET"
-  mockTransport.uri = "/twitter/tweet/_search/exists"
+  mockTransport.uri = "/twitter/_search/exists"
   mockTransport.params = {
     q = "user:kimchy"
   }
@@ -38,7 +38,6 @@ function requestTest()
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet",
     q = "user:kimchy"
   }
 

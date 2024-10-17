@@ -64,7 +64,7 @@ end
 -- Testing 'all' request
 function requestAllTest()
   mockTransport.method = "GET"
-  mockTransport.uri = "/_all/test/_msearch"
+  mockTransport.uri = "/_all/_msearch"
   mockTransport.params = {}
 
   local testBody = {
@@ -86,7 +86,6 @@ function requestAllTest()
                       .. parser.jsonEncode(testBody[2]) .. "\n"
 
   endpoint:setParams{
-    type = "test",
     body = testBody
   }
 

@@ -38,14 +38,9 @@ end
 -- @return    string    The URI
 -------------------------------------------------------------------------------
 function SearchTemplate:getUri()
-  if self.index ~= nil and self.type ~= nil then
-    return "/" .. self.index .. "/" .. self.type .. "/_search/template"
-  elseif self.index ~= nil and self.type == nil then
+  if self.index ~= nil then
     return "/" .. self.index .. "/_search/template"
-  elseif self.index == nil and self.type ~= nil then
-    return "/_all/" .. self.type .. "/_search/template"
   end
-  -- Both are nil
   return "/_search/template"
 end
 

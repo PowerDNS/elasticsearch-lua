@@ -31,7 +31,7 @@ end
 -- Testing request
 function requestTest()
   mockTransport.method = "POST"
-  mockTransport.uri = "/test/type/_mget"
+  mockTransport.uri = "/test/_mget"
   mockTransport.params = {}
   mockTransport.body = parser.jsonEncode{
     ids = {"1", "2"}
@@ -39,7 +39,6 @@ function requestTest()
 
   endpoint:setParams{
     index = "test",
-    type = "type",
     body = {
       ids = {"1", "2"}
     }

@@ -53,13 +53,10 @@ function Mlt:getUri()
   if self.index == nil then
     return nil, "index not specified for Mlt"
   end
-  if self.type == nil then
-    return nil, "type not specified for Mlt"
-  end
   if self.id == nil then
     return nil, "id not specified for Mlt"
   end
-  local uri = "/" .. self.index .. "/" .. self.type .. "/" .. self.id .. "/_mlt"
+  local uri = "/" .. self.index .. "/" .. self.id .. "/_mlt"
   return uri
 end
 

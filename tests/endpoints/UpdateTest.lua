@@ -31,7 +31,7 @@ end
 -- Testing request
 function requestTest()
   mockTransport.method = "POST"
-  mockTransport.uri = "/test/type1/1/_update"
+  mockTransport.uri = "/test/1/_update"
   mockTransport.params = {}
   mockTransport.body = parser.jsonEncode{
     script = {
