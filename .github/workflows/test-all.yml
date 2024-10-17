@@ -14,7 +14,7 @@ jobs:
     env:
       LUAROCKS: 2.2.2
       ES_USERNAME: elastic
-      ES_PASSWORD: Changeme12456!
+      ES_PASSWORD: "Changeme12456!"
       ES_TEST_PROTOCOL: http
       ES_TEST_PORT: 9200
       CACERT_PATH: 
@@ -42,6 +42,9 @@ jobs:
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
       - name: run elasticsearch
         run: cd docker && docker compose -f create-certs.yml up && cp docker-compose.yml.${{ matrix.elastic }} docker-compose.yml && docker compose up -d && cd ..
+      - name: output docker compose logs if the previous step failed
+        if: failure()
+        run: cd docker && docker compose logs && cd ..
       - name: setup test environment
         env:
           LUA: ${{ matrix.lua }}
