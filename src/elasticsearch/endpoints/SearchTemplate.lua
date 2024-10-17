@@ -40,8 +40,6 @@ end
 function SearchTemplate:getUri()
   if self.index ~= nil then
     return "/" .. self.index .. "/_search/template"
-  elseif self.index == nil then
-    return "/_all/_search/template"
   end
   return "/_search/template"
 end
