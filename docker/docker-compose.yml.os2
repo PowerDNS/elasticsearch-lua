@@ -1,8 +1,6 @@
-version: '2.2'
-
 services:
   os01:
-    image: opensearchproject/opensearch:2.0.0
+    image: opensearchproject/opensearch:2
     container_name: os01
     environment:
       - node.name=os01
