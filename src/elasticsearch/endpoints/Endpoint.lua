@@ -73,7 +73,6 @@ end
 function Endpoint:setParams(params)
   -- Clearing existing parameters
   self.index = nil
-  self.type = nil
   self.id = nil
   self.params = {}
   self.body = nil

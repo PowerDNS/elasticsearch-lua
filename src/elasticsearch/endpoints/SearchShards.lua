@@ -39,6 +39,8 @@ end
 function SearchShards:getUri()
   if self.index ~= nil then
     return "/" .. self.index .. "/_search_shards"
+  elseif self.index == nil then
+    return "/_all/_search_shards"
   end
   return "/_search_shards"
 end

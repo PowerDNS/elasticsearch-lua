@@ -65,6 +65,8 @@ end
 function Search:getUri()
   if self.index ~= nil then
     return "/" .. self.index .. "/_search"
+  elseif self.index == nil then
+    return "/_all/_search"
   end
   return "/_search"
 end

@@ -30,13 +30,12 @@ end
 -- Testing request
 function requestTest()
   mockTransport.method = "DELETE"
-  mockTransport.uri = "/twitter/tweet/_mapping"
+  mockTransport.uri = "/twitter/_mapping"
   mockTransport.params = {}
   mockTransport.body = nil
 
   endpoint:setParams{
-    index = "twitter",
-    type = "tweet"
+    index = "twitter"
   }
 
   local _, err = endpoint:request()
