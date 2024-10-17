@@ -21,6 +21,7 @@ jobs:
       ELASTIC_CREDS:
       PROTOCOL: HTTP
     strategy:
+      fail-fast: false
       matrix:
         # We test on four versions of Lua
         lua: [lua5.1, lua5.2, lua5.3, lua5.4, luajit2.0]
