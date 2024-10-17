@@ -14,7 +14,7 @@ jobs:
     env:
       LUAROCKS: 2.2.2
       ES_USERNAME: elastic
-      ES_PASSWORD: changeme
+      ES_PASSWORD: Changeme12456!
       ES_TEST_PROTOCOL: http
       ES_TEST_PORT: 9200
       CACERT_PATH: 
@@ -57,7 +57,7 @@ jobs:
         env:
           ES_TEST_PROTOCOL: https
           ES_TEST_PORT: 19200
-          ELASTIC_CREDS: -u elastic:changeme
+          ELASTIC_CREDS: -u ${{env.ES_USERNAME}}:${{env.ES_PASSWORD}}
           PROTOCOL: https
         run: cd tests && luarocks path >lpath.sh && source lpath.sh && lua run-tests.lua
       - name: run the tests for opensearch2
