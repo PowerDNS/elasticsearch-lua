@@ -32,7 +32,6 @@ function IndicesEndpoint:setParams(params)
   -- Clearing parameters
   self.name = nil
   self.index = nil
-  self.type = nil
   self.fields = nil
   self.isSynced = nil
   self.feature = nil
@@ -44,8 +43,6 @@ function IndicesEndpoint:setParams(params)
       self.name = v
     elseif i == "index" then
       self.index = v
-    elseif i == "type" then
-      self.type = v
     elseif i == "fields" then
       self.fields = v
     elseif i == "sync" then

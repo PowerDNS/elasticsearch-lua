@@ -38,11 +38,7 @@ end
 -- @return    string    The URI
 -------------------------------------------------------------------------------
 function PutMapping:getUri()
-  if self.type == nil then
-    return nil, "Type not specified for Put Mapping"
-  end
-
-  local uri = "/_mapping/" .. self.type
+  local uri = "/_mapping"
 
   if self.index ~= nil then
     uri = "/" .. self.index .. uri
