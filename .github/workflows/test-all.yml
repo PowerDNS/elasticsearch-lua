@@ -12,7 +12,7 @@ jobs:
   test_all:
     name: test_all
     env:
-      LUAROCKS: 2.2.2
+      LUAROCKS: 3.11.1
       ES_USERNAME: elastic
       ES_PASSWORD: "Changeme12456!"
       ES_TEST_PROTOCOL: http
