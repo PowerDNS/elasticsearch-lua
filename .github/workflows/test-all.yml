@@ -53,7 +53,7 @@ jobs:
       - name: Add lua things to path
         run: echo "$HOME/.lua:$HOME/.local/bin:$GITHUB_WORKSPACE/install/luarocks/bin" >> $GITHUB_PATH
       - name: install luarocks
-        run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec 0.7-1
+        run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec
       - name: make the elasticsearch-lua rockspec
         run: luarocks make rockspecs/elasticsearch-lua-1.0.12-1.rockspec
       - name: run the tests for el8
