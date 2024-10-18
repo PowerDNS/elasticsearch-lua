@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         # We test on four versions of Lua
-        lua: [lua5.1, lua5.2, lua5.3, lua5.4, luajit2.0]
+        lua: [lua5.1, lua5.2, lua5.3, lua5.4, luajit]
         # We're testing on three versions of Elastic: 7, 8 and the
         # Amazon Fork - OpenSearch 2.0
         elastic: [el7, el8, os2]

@@ -8,52 +8,33 @@
 
 set -eufo pipefail
 
-LUAJIT_BASE="LuaJIT-2.0.5"
-
 source $GITHUB_WORKSPACE/tests/gh_actions/platform.sh
 
 LUA_HOME_DIR=$GITHUB_WORKSPACE/install/lua
 
 LR_HOME_DIR=$GITHUB_WORKSPACE/install/luarocks
 
-mkdir $HOME/.lua
+rm -rf $HOME/.lua
+mkdir -p $HOME/.lua
 
-LUAJIT="no"
+LUAJIT="yes"
 
 if [ "$PLATFORM" == "macosx" ]; then
-  if [ "$LUA" == "luajit2.0" ]; then
-    LUAJIT="yes";
-  fi
-  if [ "$LUA" == "luajit2.1" ]; then
-    LUAJIT="yes";
-  fi;
-elif [ "$(expr substr $LUA 1 6)" == "luajit" ]; then
-  LUAJIT="yes";
+  export MACOSX_DEPLOYMENT_TARGET=`sw_vers --productVersion`
 fi
 
 mkdir -p "$LUA_HOME_DIR"
 
 if [ "$LUAJIT" == "yes" ]; then
 
-  git clone https://github.com/luajit/luajit.git -b v2.0 $LUAJIT_BASE;
+  git clone https://luajit.org/git/luajit.git;
 
-  cd $LUAJIT_BASE
-
-  if [ "$LUA" == "luajit2.1" ]; then
-    git checkout v2.1;
-    # force the INSTALL_TNAME to be luajit
-    perl -i -pe 's/INSTALL_TNAME=.+/INSTALL_TNAME= luajit/' Makefile
-  fi
+  cd luajit
 
   make && make install PREFIX="$LUA_HOME_DIR"
 
-  if [ "$LUA" == "luajit2.1" ]; then
-    ln -s $LUA_HOME_DIR/bin/luajit-2.1.0-beta1 $HOME/.lua/luajit
-    ln -s $LUA_HOME_DIR/bin/luajit-2.1.0-beta1 $HOME/.lua/lua;
-  else
-    ln -s $LUA_HOME_DIR/bin/luajit $HOME/.lua/luajit
-    ln -s $LUA_HOME_DIR/bin/luajit $HOME/.lua/lua;
-  fi;
+  ln -s $LUA_HOME_DIR/bin/luajit $HOME/.lua/luajit
+  ln -s $LUA_HOME_DIR/bin/luajit $HOME/.lua/lua;
 
 else
 
@@ -91,10 +72,8 @@ curl --location http://luarocks.org/releases/$LUAROCKS_BASE.tar.gz | tar xz
 
 cd $LUAROCKS_BASE
 
-if [ "$LUA" == "luajit2.0" ]; then
-  ./configure --lua-suffix=jit --with-lua-include="$LUA_HOME_DIR/include/luajit-2.0" --prefix="$LR_HOME_DIR";
-elif [ "$LUA" == "luajit2.1" ]; then
-  ./configure --lua-suffix=jit --with-lua-include="$LUA_HOME_DIR/include/luajit-2.1" --prefix="$LR_HOME_DIR";
+if [ "$LUA" == "luajit" ]; then
+  ./configure --lua-version="5.1" --with-lua="$LUA_HOME_DIR" --prefix="$LR_HOME_DIR";
 else
   ./configure --with-lua="$LUA_HOME_DIR" --prefix="$LR_HOME_DIR"
 fi
