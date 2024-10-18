@@ -107,6 +107,12 @@ cd $GITHUB_WORKSPACE
 
 luarocks --version
 
+if [ "$LUA" == "luajit2.0" ]; then
+  luarocks config variables.LUA_INCDIR "$LUA_HOME_DIR/include/luajit-2.0"
+elif [ "$LUA" == "luajit2.1" ]; then
+  luarocks config variables.LUA_INCDIR "$LUA_HOME_DIR/include/luajit-2.1"
+fi
+
 rm -rf $LUAROCKS_BASE
 
 if [ "$LUAJIT" == "yes" ]; then
