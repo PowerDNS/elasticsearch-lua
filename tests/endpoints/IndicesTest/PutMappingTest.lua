@@ -2,6 +2,7 @@
 local PutMapping = require "elasticsearch.endpoints.Indices.PutMapping"
 local MockTransport = require "lib.MockTransport"
 local getmetatable = getmetatable
+local parser = require "elasticsearch.parser"
 
 -- Setting up environment
 local _ENV = lunit.TEST_CASE "tests.endpoints.IndicesTest.PutMappingTest"
@@ -32,12 +33,13 @@ function requestTest()
   mockTransport.method = "PUT"
   mockTransport.uri = "/_mapping"
   mockTransport.params = {}
-  mockTransport.body = nil
+  mockTransport.body = nill
 
-  endpoint:setParams{}
+  endpoint:setParams{
+  }
 
   local _, err = endpoint:request()
-  assert_not_nil(err)
+  assert_nil(err)
 end
 
 -- Testing index request
@@ -52,36 +54,6 @@ function requestIndexTest()
   }
 
   local _, err = endpoint:request()
-  assert_not_nil(err)
-end
-
--- Testing name request
-function requestTypeTest()
-  mockTransport.method = "PUT"
-  mockTransport.uri = "/_mapping/user_12"
-  mockTransport.params = {}
-  mockTransport.body = nil
-
-  endpoint:setParams{
-    type = "user_12"
-  }
-
-  local _, err = endpoint:request()
   assert_nil(err)
 end
 
--- Testing index and name request
-function requestIndexTypeTest()
-  mockTransport.method = "PUT"
-  mockTransport.uri = "/users/_mapping/user_12"
-  mockTransport.params = {}
-  mockTransport.body = nil
-
-  endpoint:setParams{
-    index = "users",
-    type = "user_12"
-  }
-
-  local _, err = endpoint:request()
-  assert_nil(err)
-end

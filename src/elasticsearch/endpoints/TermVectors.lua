@@ -47,10 +47,7 @@ function TermVectors:getUri()
   if self.index == nil then
     return nil, "index not specified for TermVectors"
   end
-  if self.type == nil then
-    return nil, "type not specified for TermVectors"
-  end
-  local uri = "/" .. self.index .. "/" .. self.type .. "/" .. self.id
+  local uri = "/" .. self.index .. "/" .. self.id
     .. "/_termvectors"
   return uri
 end

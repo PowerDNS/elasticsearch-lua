@@ -31,13 +31,12 @@ end
 -- Testing request
 function requestTest()
   mockTransport.method = "POST"
-  mockTransport.uri = "/twitter/tweet/1/_termvectors"
+  mockTransport.uri = "/twitter/1/_termvectors"
   mockTransport.params = {}
   mockTransport.body = nil
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet",
     id = "1"
   }
 

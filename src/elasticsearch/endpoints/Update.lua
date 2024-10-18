@@ -52,13 +52,6 @@ function Update:getUri()
     return nil, "index not specified for Update"
   end
 
-  -- fix es since 7+ don't support type.
-  -- removes if
-
-  --[[if self.type == nil then
-    return nil, "type not specified for Update"
-  end]]
-
   -- update uri
   -- es : https://www.elastic.co/guide/en/elasticsearch/reference/7.0/docs-update.html#docs-update
   return "/" .. self.index .. "/_update/" .. self.id

@@ -54,34 +54,3 @@ function requestIndexTest()
   local _, err = endpoint:request()
   assert_nil(err)
 end
-
--- Testing name request
-function requestTypeTest()
-  mockTransport.method = "GET"
-  mockTransport.uri = "/_mapping/user_12"
-  mockTransport.params = {}
-  mockTransport.body = nil
-
-  endpoint:setParams{
-    type = "user_12"
-  }
-
-  local _, err = endpoint:request()
-  assert_nil(err)
-end
-
--- Testing index and name request
-function requestIndexTypeTest()
-  mockTransport.method = "GET"
-  mockTransport.uri = "/users/_mapping/user_12"
-  mockTransport.params = {}
-  mockTransport.body = nil
-
-  endpoint:setParams{
-    index = "users",
-    type = "user_12"
-  }
-
-  local _, err = endpoint:request()
-  assert_nil(err)
-end

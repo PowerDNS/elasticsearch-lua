@@ -46,13 +46,12 @@ end
 -- Testing type request
 function requestTypeTest()
   mockTransport.method = "POST"
-  mockTransport.uri = "/twitter/tweet/_update_by_query"
+  mockTransport.uri = "/twitter/_update_by_query"
   mockTransport.params = {}
   mockTransport.body = nil
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet"
   }
 
   local _, err = endpoint:request()

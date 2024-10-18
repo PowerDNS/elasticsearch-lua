@@ -35,10 +35,7 @@ function DeleteMapping:getUri()
   if self.index == nil then
     return nil, "index not specified for Delete Mapping"
   end
-  if self.type == nil then
-    return nil, "type not specified for Delete Mapping"
-  end
-  return "/" .. self.index .. "/" .. self.type .. "/_mapping"
+  return "/" .. self.index .. "/_mapping"
 end
 
 -------------------------------------------------------------------------------

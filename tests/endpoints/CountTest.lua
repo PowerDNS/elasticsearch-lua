@@ -31,7 +31,7 @@ end
 -- Testing request
 function request1Test()
   mockTransport.method = "GET"
-  mockTransport.uri = "/twitter/tweet/_count"
+  mockTransport.uri = "/twitter/_count"
   mockTransport.params = {
     q = "user:kimchy"
   }
@@ -39,7 +39,6 @@ function request1Test()
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet",
     q = "user:kimchy"
   }
   local _, err = endpoint:request()
@@ -49,7 +48,7 @@ end
 -- Testing request
 function request2Test()
   mockTransport.method = "GET"
-  mockTransport.uri = "/twitter/tweet/_count"
+  mockTransport.uri = "/twitter/_count"
   mockTransport.params = {}
   mockTransport.body = parser.jsonEncode{
     query = {
@@ -61,7 +60,6 @@ function request2Test()
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet",
     body = {
       query = {
         term = {

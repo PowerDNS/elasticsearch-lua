@@ -48,14 +48,13 @@ end
 -- Testing all request
 function requestTest()
   mockTransport.method = "GET"
-  mockTransport.uri = "/_all/tweet/_search"
+  mockTransport.uri = "/_all/_search"
   mockTransport.params = {
     q = "user:kimchy"
   }
   mockTransport.body = nil
 
   endpoint:setParams{
-    type = "tweet",
     q = "user:kimchy"
   }
 

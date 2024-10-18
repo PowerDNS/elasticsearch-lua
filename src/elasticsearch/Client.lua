@@ -54,9 +54,6 @@ function Client:requestEndpoint(endpoint, params, endpointParams)
     endpointParams = endpointParams or {}
   }
   if params ~= nil then
-    -- Elasticsearch 6+ are removing support for types
-    -- This removes it if it is set
-    params.type = nil
     -- Parameters need to be set
     local err = endpoint:setParams(params)
     if err ~= nil then
@@ -310,57 +307,6 @@ function Client:count(params)
 end
 
 -------------------------------------------------------------------------------
--- Count Percolator
---
--- @usage
--- params["index"]              = (string) The index of the document being count percolated. (Required)
---       ["type"]               = (string) The type of the document being count percolated. (Required)
---       ["id"]                 = (string) Substitute the document in the request body with a document that is
---       known by the specified id. On top of the id, the index and type parameter will be used to retrieve the document
---       from within the cluster. (Required)
---       ["routing"]            = (list) A comma-separated list of specific routing values
---       ["preference"]         = (string) Specify the node or shard the operation should be performed on
---       ["ignore_unavailable"] = (boolean) Whether specified concrete indices should be ignored when unavailable
---       (missing or closed)
---       ["allow_no_indices"]   = (boolean) Whether to ignore if a wildcard indices expression resolves into no
---       concrete indices. (This includes '_all' string or when no indices have been specified)
---       ["expand_wildcards"]   = (enum) Whether to expand wildcard expression to concrete indices that are open,
---       ["percolate_index"]    = (string) The index to count percolate the document into. Defaults to index.
---       ["percolate_type"]     = (string) The type to count percolate document into. Defaults to type.
---       ["version"]            = (number) Explicit version number for concurrency control
---       ["version_type"]       = (enum) Specific version type (internal,external,external_gte,force)
---       ["body"]               = The count percolator request definition using the percolate DSL
---
--- @param    params    The countPercolate Parameters
---
--- @return   table     Error or the data received from the elasticsearch server
--------------------------------------------------------------------------------
-function Client:countPercolate(params)
-  return self:requestEndpoint("CountPercolate", params)
-end
-
--------------------------------------------------------------------------------
--- Function to implement mpercolate
---
--- @usage
--- params["index"]              = (string) The index of the document being count percolated to use as default
---       ["type"]               = (string) The type of the document being percolated to use as default.
---       ["ignore_unavailable"] = (boolean) Whether specified concrete indices should be ignored when unavailable
---       (missing or closed)
---       ["allow_no_indices"]   = (boolean) Whether to ignore if a wildcard indices expression resolves into no
---       concrete indices. (This includes '_all' string or when no indices have been specified)
---       ["expand_wildcards"]   = (enum) Whether to expand wildcard expression to concrete indices that are open,
---       ["body"]               = The percolate request definitions (header & body pair), separated by newlines
---
--- @param    params    The mpercolate Parameters
---
--- @return   table     Error or the data received from the elasticsearch server
--------------------------------------------------------------------------------
-function Client:mpercolate(params)
-  return self:requestEndpoint("MPercolate", params)
-end
-
--------------------------------------------------------------------------------
 -- Function to implement mtermvectors
 --
 -- @usage
@@ -430,39 +376,6 @@ end
 -------------------------------------------------------------------------------
 function Client:mlt(params)
   return self:requestEndpoint("Mlt", params)
-end
-
--------------------------------------------------------------------------------
--- Function to implement percolate
---
--- @usage
--- params["index"]                = (string) The index of the document being percolated. (Required)
---       ["type"]                 = (string) The type of the document being percolated. (Required)
---       ["id"]                   = (string) Substitute the document in the request body with a document that is
---       known by the specified id. On top of the id, the index and type parameter will be used to retrieve the document
---       from within the cluster. (Required)
---       ["routing"]              = (list) A comma-separated list of specific routing values
---       ["preference"]           = (string) Specify the node or shard the operation should be performed on
---       ["ignore_unavailable"]   = (boolean) Whether specified concrete indices should be ignored when
---       unavailable (missing or closed)
---       ["allow_no_indices"]     = (boolean) Whether to ignore if a wildcard indices expression resolves into no
---       concrete indices. (This includes '_all' string or when no indices have been specified)
---       ["expand_wildcards"]     = (enum) Whether to expand wildcard expression to concrete indices that are
---       ["percolate_index"]      = (string) The index to percolate the document into. Defaults to index.
---       ["percolate_type"]       = (string) The type to percolate document into. Defaults to type.
---       ["percolate_routing"]    = (string) The routing value to use when percolating the existing document.
---       ["percolate_preference"] = (string) Which shard to prefer when executing the percolate request.
---       ["percolate_format"]     = (enum) Return an array of matching query IDs instead of objects (ids)
---       ["version"]              = (number) Explicit version number for concurrency control
---       ["version_type"]         = (enum) Specific version type (internal,external,external_gte,force)
---       ["body"]                 = The percolator request definition using the percolate DSL
---
--- @param    params    The percolate Parameters
---
--- @return   table     Error or the data received from the elasticsearch server
--------------------------------------------------------------------------------
-function Client:percolate(params)
-  return self:requestEndpoint("Percolate", params)
 end
 
 -------------------------------------------------------------------------------
@@ -699,7 +612,6 @@ end
 --       ["id"]           = (string) Specific document ID (when the POST method is used)
 --       ["consistency"]  = (enum) Explicit write consistency setting for the operation
 --       ["parent"]       = (string) ID of the parent document
---       ["percolate"]    = (string) Percolator queries to execute while indexing the document
 --       ["refresh"]      = (boolean) Refresh the index after performing the operation
 --       ["replication"]  = (enum) Specific replication type
 --       ["routing"]      = (string) Specific routing value
@@ -801,7 +713,6 @@ end
 --       ["fields"]            = (list) A comma-separated list of fields to return in the response
 --       ["lang"]              = (string) The script language (default: mvel)
 --       ["parent"]            = (string) ID of the parent document
---       ["percolate"]         = (string) Perform percolation during the operation; use specific registered query name, attribute, or wildcard
 --       ["refresh"]           = (boolean) Refresh the index after performing the operation
 --       ["replication"]       = (enum) Specific replication type
 --       ["retry_on_conflict"] = (number) Specify how many times should the operation be retried when a conflict occurs (default: 0)

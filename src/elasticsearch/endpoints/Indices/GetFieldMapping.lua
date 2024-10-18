@@ -45,9 +45,6 @@ function GetFieldMapping:getUri()
   if self.index ~= nil then
     uri = "/" .. self.index .. uri
   end
-  if self.type ~= nil then
-    uri = uri .. "/" .. self.type
-  end
 
   uri = uri .. "/field/" .. self.fields
   
