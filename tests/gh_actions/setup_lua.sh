@@ -17,7 +17,11 @@ LR_HOME_DIR=$GITHUB_WORKSPACE/install/luarocks
 rm -rf $HOME/.lua
 mkdir -p $HOME/.lua
 
-LUAJIT="yes"
+if [ "$LUA" == "luajit" ]; then
+  LUAJIT="yes"
+else
+  LUAJIT="no"
+fi
 
 if [ "$PLATFORM" == "macosx" ]; then
   export MACOSX_DEPLOYMENT_TARGET=`sw_vers --productVersion`
@@ -85,10 +89,9 @@ ln -s $LR_HOME_DIR/bin/luarocks $HOME/.lua/luarocks
 cd $GITHUB_WORKSPACE
 
 luarocks --version
-luarocks
 
 if [ "$LUAJIT" == "yes" ]; then
-  rm -rf $luajit;
+  rm -rf luajit;
 elif [ "$LUA" == "lua5.1" ]; then
   rm -rf lua-5.1.5;
 elif [ "$LUA" == "lua5.2" ]; then
