@@ -33,26 +33,13 @@ function requestTest()
   mockTransport.method = "PUT"
   mockTransport.uri = "/_mapping"
   mockTransport.params = {}
-  mockTransport.body = parser.jsonEncode{
-    properties = {
-      email = {
-        type = "keyword"
-      }
-    }
-  }
+  mockTransport.body = nill
 
   endpoint:setParams{
-    body = {
-      properties = {
-        email = {
-          type = "keyword"
-        }
-      }
-    }
   }
 
   local _, err = endpoint:request()
-  assert_not_nil(err)
+  assert_nil(err)
 end
 
 -- Testing index request
@@ -60,26 +47,13 @@ function requestIndexTest()
   mockTransport.method = "PUT"
   mockTransport.uri = "/users/_mapping"
   mockTransport.params = {}
-  mockTransport.body = parser.jsonEncode{
-    properties = {
-        email = {
-          type = "keyword"
-        }
-    }
-  }
+  mockTransport.body = nil
 
   endpoint:setParams{
-    index = "users",
-    body = {
-      properties = {
-        email = {
-          type = "keyword"
-        }
-      }
-    }
+    index = "users"
   }
 
   local _, err = endpoint:request()
-  assert_not_nil(err)
+  assert_nil(err)
 end
 
