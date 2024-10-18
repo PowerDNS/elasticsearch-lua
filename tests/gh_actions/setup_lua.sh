@@ -87,14 +87,14 @@ cd $GITHUB_WORKSPACE
 luarocks --version
 luarocks
 
-rm -rf $LUAROCKS_BASE
-
 if [ "$LUAJIT" == "yes" ]; then
-  rm -rf $LUAJIT_BASE;
+  rm -rf $luajit;
 elif [ "$LUA" == "lua5.1" ]; then
   rm -rf lua-5.1.5;
 elif [ "$LUA" == "lua5.2" ]; then
   rm -rf lua-5.2.4;
 elif [ "$LUA" == "lua5.3" ]; then
   rm -rf lua-5.3.3;
+elif [ "$LUA" == "lua5.4" ]; then
+  rm -rf lua-5.4.7;
 fi
