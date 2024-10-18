@@ -42,8 +42,6 @@ function MGet:getUri()
   local uri = "/_mget"
   if self.index ~= nil then
     uri = "/" .. self.index .. uri
-  else
-    uri = "/_all/" .. uri
   end
   return uri
 end

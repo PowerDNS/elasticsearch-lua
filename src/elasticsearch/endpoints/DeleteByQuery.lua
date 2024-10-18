@@ -45,7 +45,7 @@ end
 -------------------------------------------------------------------------------
 function DeleteByQuery:getUri()
   if self.index == nil then
-    return nil, "index not specified for CountPercolate"
+    return nil, "index not specified for DeleteByQuery"
   end
   local uri = "/" .. self.index
   uri = uri .. "/_query"
