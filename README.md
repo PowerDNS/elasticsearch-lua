@@ -4,12 +4,12 @@
 
 [![License](http://img.shields.io/badge/Licence-MIT-brightgreen.svg)](LICENSE)
 
-[![LuaRocks](https://img.shields.io/badge/LuaRocks-2.4.1-blue.svg)](https://luarocks.org/modules/neilcook/elasticsearch-lua) [![Lua](https://img.shields.io/badge/Lua-5.1-blue.svg)](https://img.shields.io/badge/Lua-5.1-blue.svg) [![Lua](https://img.shields.io/badge/Lua-5.2-blue.svg)](https://img.shields.io/badge/Lua-5.2-blue.svg) [![Lua](https://img.shields.io/badge/Lua-5.3-blue.svg)](https://img.shields.io/badge/Lua-5.3-blue.svg)[![LuaJIT](https://img.shields.io/badge/LuaJIT-2.0-blue.svg)](https://img.shields.io/badge/LuaJIT-2.0-blue.svg)
+[![LuaRocks](https://img.shields.io/badge/LuaRocks-3.x-blue.svg)](https://luarocks.org/modules/neilcook/elasticsearch-lua) [![Lua](https://img.shields.io/badge/Lua-5.1-blue.svg)](https://img.shields.io/badge/Lua-5.1-blue.svg) [![Lua](https://img.shields.io/badge/Lua-5.2-blue.svg)](https://img.shields.io/badge/Lua-5.2-blue.svg) [![Lua](https://img.shields.io/badge/Lua-5.3-blue.svg)](https://img.shields.io/badge/Lua-5.3-blue.svg)[![Lua](https://img.shields.io/badge/Lua-5.4-blue.svg)](https://img.shields.io/badge/Lua-5.4-blue.svg)[![LuaJIT](https://img.shields.io/badge/LuaJIT-blue.svg)](https://img.shields.io/badge/LuaJIT-blue.svg)
 
 A low level client for Elasticsearch written in Lua. This is a fork of
 the original repo by Dhaval Kapil, which he no longer maintains. This
 repo does not try to be all things to all people. It is tested against and
-supports Elasticsearch 7,x, 8,x and Amazon Opensearch 2.0 and Lua 5.1, 5.2, 5.3 and LuaJIT 2.0.
+supports Elasticsearch 7,x, 8,x and Amazon Opensearch 2.0 and Lua 5.1, 5.2, 5.3, 5.4 and LuaJIT.
 
 In accordance with the official low level clients, the client accepts associative arrays in the form of lua tables as parameters.
 
@@ -23,13 +23,13 @@ In accordance with the official low level clients, the client accepts associativ
 
 ## Elasticsearch Version Matrix
 
-| Elasticsearch Version   | elasticsearch-lua Branch |
-| ---------------------   | ------------------------ |
-| ES 7.0 - 8.x + OS 2.0   |     master               |
+| Elasticsearch Version | elasticsearch-lua Branch |
+|-----------------------|--------------------------|
+| ES 7.0 - 8.x + OS 2.0 | master                   |
 
 ## Lua Version Requirements
 
-`elasticsearch-lua` works for lua >= 5.1  <= 5.3 version and luajit = 2.0.
+`elasticsearch-lua` works for lua >= 5.1  <= 5.4 version and luajit.
 
 ## Setup
 
@@ -103,8 +103,8 @@ local data, err = client:info()
 
 ### Type mapping deprecation
 
-Elasticsearch is in the process of deprecating and removing type
-mappings. To that end, if the type parameter is supplied, it will be removed.
+Elasticsearch 7 and above have deprecated and removed type
+mappings. To that end, if the type parameter is supplied, it will be ignored.
 
 ### Index a document
 
