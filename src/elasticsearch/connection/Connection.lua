@@ -84,7 +84,7 @@ function Connection:request(method, uri, params, body, timeout)
     request.source = ltn12.source.string(body)
   end
   -- Adding auth to request
-  if self.username ~= "" and self.password ~= "" then
+  if self.username and self.username ~= "" and self.password and self.password ~= "" then
      local authStr, foo = mime.b64(self.username .. ':' .. self.password)
      request.headers['Authorization'] = 'Basic ' .. authStr
   end
@@ -172,7 +172,7 @@ function Connection:buildURI(uri, params)
     port = self.port,
     path = uri
   }
-  if self.connectionstring ~= "" then
+  if self.connectionstring and self.connectionstring ~= "" then
     urlComponents = url.parse(self.connectionstring)
     urlComponents.path = uri
   end
