@@ -67,7 +67,6 @@ function requestPOSTTest()
 
   endpoint:setParams{
     index = "twitter",
-    type = "tweet",
     body = {
       user = "kimchy",
       post_date = "2009-11-15T14:12:12",

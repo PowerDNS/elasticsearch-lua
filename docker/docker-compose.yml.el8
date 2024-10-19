@@ -1,9 +1,7 @@
-version: '2.2'
-
 services:
   es02:
     container_name: es02
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
     environment:
       - node.name=es02
       - ELASTIC_PASSWORD=$ELASTIC_PASSWORD

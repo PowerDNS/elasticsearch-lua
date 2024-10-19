@@ -52,9 +52,6 @@ function Count:getUri()
   else
     uri = uri .. "/" .. self.index
   end
-  if self.type ~= nil then
-    uri = uri .. "/" .. self.type
-  end
   uri = uri .. "/_count"
   return uri
 end

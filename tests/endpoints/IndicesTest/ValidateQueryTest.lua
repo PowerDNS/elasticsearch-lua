@@ -54,34 +54,3 @@ function requestIndexTest()
   local _, err = endpoint:request()
   assert_nil(err)
 end
-
--- Testing type request
-function requestTypeTest()
-  mockTransport.method = "GET"
-  mockTransport.uri = "/tweet/_validate/query"
-  mockTransport.params = {}
-  mockTransport.body = nil
-
-  endpoint:setParams{
-    type = "tweet"
-  }
-
-  local _, err = endpoint:request()
-  assert_nil(err)
-end
-
--- Testing index and type request
-function requestIndexTypeTest()
-  mockTransport.method = "GET"
-  mockTransport.uri = "/twitter/tweet/_validate/query"
-  mockTransport.params = {}
-  mockTransport.body = nil
-
-  endpoint:setParams{
-    index = "twitter",
-    type = "tweet"
-  }
-
-  local _, err = endpoint:request()
-  assert_nil(err)
-end

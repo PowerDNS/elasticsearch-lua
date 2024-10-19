@@ -1,11 +1,10 @@
-version: '2.2'
-
 services:
   os01:
-    image: opensearchproject/opensearch:2.0.0
+    image: opensearchproject/opensearch:2
     container_name: os01
     environment:
       - node.name=os01
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=$ELASTIC_PASSWORD
       - discovery.type=single-node
       - plugins.security.disabled=true
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping

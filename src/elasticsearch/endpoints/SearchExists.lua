@@ -62,14 +62,11 @@ end
 -- @return    string    The URI
 -------------------------------------------------------------------------------
 function SearchExists:getUri()
-  if self.index ~= nil and self.type ~= nil then
-    return "/" .. self.index .. "/" .. self.type .. "/_search/exists"
-  elseif self.index ~= nil and self.type == nil then
+  if self.index ~= nil then
     return "/" .. self.index .. "/_search/exists"
-  elseif self.index == nil and self.type ~= nil then
-    return "/_all/" .. self.type .. "/_search/exists"
+  elseif self.index == nil then
+    return "/_all/_search/exists"
   end
-  -- Both are nil
   return "/_search/exists"
 end
 

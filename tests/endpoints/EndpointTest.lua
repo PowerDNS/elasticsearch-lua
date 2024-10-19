@@ -67,7 +67,6 @@ end
 function setStandardParamsTest()
   local testParams = {
     index = "my_index",
-    type = "my_type",
     id = "my_id",
     body = {
       a = "b"
@@ -78,7 +77,6 @@ function setStandardParamsTest()
   local err = e:setParams(testParams)
   assert_nil(err)
   assert_equal("my_index", e.index)
-  assert_equal("my_type", e.type)
   assert_equal("my_id", e.id)
   assert_equal(actualBody, e.body)
 end

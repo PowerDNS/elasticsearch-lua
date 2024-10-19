@@ -48,9 +48,6 @@ end
 function ValidateQuery:getUri()
   local uri = "/_validate/query"
 
-  if self.type ~= nil then
-    uri = "/" .. self.type .. uri
-  end
   if self.index ~= nil then
     uri = "/" .. self.index .. uri
   end

@@ -12,27 +12,27 @@ jobs:
   test_all:
     name: test_all
     env:
-      DOCKER_COMPOSE_VERSION: 1.29.2
-      LUAROCKS: 2.2.2
+      LUAROCKS: 3.11.1
       ES_USERNAME: elastic
-      ES_PASSWORD: changeme
+      ES_PASSWORD: "Changeme12456!"
       ES_TEST_PROTOCOL: http
       ES_TEST_PORT: 9200
       CACERT_PATH: 
       ELASTIC_CREDS:
       PROTOCOL: HTTP
     strategy:
+      fail-fast: false
       matrix:
         # We test on four versions of Lua
-        lua: [lua5.1, lua5.2, lua5.3, luajit2.0]
+        lua: [lua5.1, lua5.2, lua5.3, lua5.4, luajit]
         # We're testing on three versions of Elastic: 7, 8 and the
         # Amazon Fork - OpenSearch 2.0
         elastic: [el7, el8, os2]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 5
+          fetch-depth: 6
           submodules: recursive
       - name: Set dynamic env vars
         run:  echo "CAFILE=$GITHUB_WORKSPACE/docker/certs/ca/ca.crt" >> $GITHUB_ENV
@@ -41,10 +41,11 @@ jobs:
         run: echo "CACERT_PATH=--cacert $GITHUB_WORKSPACE/docker/certs/ca/ca.crt" >> $GITHUB_ENV
       - name: install dependencies
         run: sudo apt-get -y update && sudo apt-get install wget openssl -y
-      - name: install docker-compose
-        run: curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > docker-compose && chmod +x docker-compose && sudo mv docker-compose /usr/local/bin
       - name: run elasticsearch
-        run: cd docker && docker-compose -f create-certs.yml up && cp docker-compose.yml.${{ matrix.elastic }} docker-compose.yml && docker-compose up -d && cd ..
+        run: cd docker && docker compose -f create-certs.yml up && cp docker-compose.yml.${{ matrix.elastic }} docker-compose.yml && docker compose up -d && cd ..
+      - name: output docker compose logs if the previous step failed
+        if: failure()
+        run: cd docker && docker compose logs && cd ..
       - name: setup test environment
         env:
           LUA: ${{ matrix.lua }}
@@ -52,15 +53,15 @@ jobs:
       - name: Add lua things to path
         run: echo "$HOME/.lua:$HOME/.local/bin:$GITHUB_WORKSPACE/install/luarocks/bin" >> $GITHUB_PATH
       - name: install luarocks
-        run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec 0.7-1
+        run: luarocks install lunitx && luarocks install luacov && luarocks install luacov-coveralls && luarocks install luasec
       - name: make the elasticsearch-lua rockspec
-        run: luarocks make rockspecs/elasticsearch-lua-1.0.11-1.rockspec
+        run: luarocks make rockspecs/elasticsearch-lua-1.0.12-1.rockspec
       - name: run the tests for el8
         if: ${{ matrix.elastic == 'el8' }}
         env:
           ES_TEST_PROTOCOL: https
           ES_TEST_PORT: 19200
-          ELASTIC_CREDS: -u elastic:changeme
+          ELASTIC_CREDS: -u ${{env.ES_USERNAME}}:${{env.ES_PASSWORD}}
           PROTOCOL: https
         run: cd tests && luarocks path >lpath.sh && source lpath.sh && lua run-tests.lua
       - name: run the tests for opensearch2

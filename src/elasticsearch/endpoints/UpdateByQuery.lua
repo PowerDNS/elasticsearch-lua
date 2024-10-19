@@ -74,10 +74,7 @@ function UpdateByQuery:getUri()
   if self.index == nil then
     return nil, "index not specified for UpdateByQuery"
   end
-  if self.type ~= nil then
-    uri = "/" .. self.type .. uri
-  end
-  uri = "/" .. self.index .. uri 
+  uri = "/" .. self.index .. uri
   return uri
 end
 

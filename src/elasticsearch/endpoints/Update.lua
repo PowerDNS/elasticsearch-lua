@@ -51,10 +51,10 @@ function Update:getUri()
   if self.index == nil then
     return nil, "index not specified for Update"
   end
-  if self.type == nil then
-    return nil, "type not specified for Update"
-  end
-  return "/" .. self.index .. "/" .. self.type .. "/" .. self.id .. "/_update"
+
+  -- update uri
+  -- es : https://www.elastic.co/guide/en/elasticsearch/reference/7.0/docs-update.html#docs-update
+  return "/" .. self.index .. "/_update/" .. self.id
 end
 
 -------------------------------------------------------------------------------

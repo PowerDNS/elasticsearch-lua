@@ -63,14 +63,11 @@ end
 -- @return    string    The URI
 -------------------------------------------------------------------------------
 function Search:getUri()
-  if self.index ~= nil and self.type ~= nil then
-    return "/" .. self.index .. "/" .. self.type .. "/_search"
-  elseif self.index ~= nil and self.type == nil then
+  if self.index ~= nil then
     return "/" .. self.index .. "/_search"
-  elseif self.index == nil and self.type ~= nil then
-    return "/_all/" .. self.type .. "/_search"
+  elseif self.index == nil then
+    return "/_all/_search"
   end
-  -- Both are nil
   return "/_search"
 end
 
