@@ -66,6 +66,20 @@ function buildURITest()
     con.protocol .. "://" .. con.host .. ":" .. con.port .. "/path?b=b_s&a=a_s" == url)
   url = con:buildURI("/path", {a="a_s"})
   assert_not_equal(con.protocol .. "://" .. con.host .. ":" .. con.port .. "/path?a=a_s&b=b_s", url)
+  local connectionstring = os.getenv("ES_TEST_CONNECTIONSTRING")
+  if connectionstring == nil then connectionstring = "http://localhost:9200" end
+  local con = Connection:new{
+    connectionstring = connectionstring,
+    username = username,
+    password = password,
+    pingTimeout = 1,
+    logger = logger,
+    requestEngine = "LuaSocket"
+  }
+  local url = con:buildURI("/path", {a="a_s", b="b_s"})
+  assert_true(con.connectionstring .. "/path?a=a_s&b=b_s" == url or con.connectionstring .. "/path?b=b_s&a=a_s" == url)
+  url = con:buildURI("/path", {a="a_s"})
+  assert_not_equal(con.connectionstring .. "/path?a=a_s&b=b_s", url)
 end
 
 -- Testing the request function

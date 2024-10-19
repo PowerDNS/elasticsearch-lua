@@ -17,6 +17,7 @@ jobs:
       ES_PASSWORD: "Changeme12456!"
       ES_TEST_PROTOCOL: http
       ES_TEST_PORT: 9200
+      ES_TEST_CONNECTIONSTRING: "http://localhost:9200"
       CACERT_PATH: 
       ELASTIC_CREDS:
       PROTOCOL: HTTP
@@ -61,6 +62,7 @@ jobs:
         env:
           ES_TEST_PROTOCOL: https
           ES_TEST_PORT: 19200
+          ES_TEST_CONNECTIONSTRING: "https://localhost:19200"
           ELASTIC_CREDS: -u ${{env.ES_USERNAME}}:${{env.ES_PASSWORD}}
           PROTOCOL: https
         run: cd tests && luarocks path >lpath.sh && source lpath.sh && lua run-tests.lua
@@ -68,6 +70,7 @@ jobs:
         if: ${{ matrix.elastic == 'os2' }}
         env:
           ES_TEST_PORT: 29200
+          ES_TEST_CONNECTIONSTRING: "http://localhost:29200"
         run: cd tests && luarocks path >lpath.sh && source lpath.sh && lua run-tests.lua
       - name: run the tests for el7
         if: ${{ matrix.elastic == 'el7' }}
