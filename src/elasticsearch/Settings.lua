@@ -27,6 +27,7 @@ local Settings = {}
 -- Initial seed of hosts
 Settings.hosts = {
   {
+    connectionstring = "",
     protocol = "http",
     host = "localhost",
     port = 9200,
@@ -131,6 +132,7 @@ function Settings:setParameters()
   -- Checking hosts
   if self.user_hosts ~= nil then
     local default_host = {
+      connectionstring = self.hosts[1].connectionstring,
       protocol = self.hosts[1].protocol,
       host = self.hosts[1].host,
       port = self.hosts[1].port,
@@ -142,6 +144,7 @@ function Settings:setParameters()
     self.hosts = {}
     for i, v in pairs(self.user_hosts) do
       self.hosts[i] = {
+        connectionstring = default_host.connectionstring,
         protocol = default_host.protocol,
         host = default_host.host,
         port = default_host.port,
@@ -172,6 +175,7 @@ function Settings:setConnectionSettings()
   self.connections = {}
   for key, host in pairs(self.hosts) do
     table.insert(self.connections, Connection:new{
+      connectionstring = host.connectionstring,
       protocol = host.protocol,
       host = host.host,
       port = host.port,

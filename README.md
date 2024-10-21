@@ -52,6 +52,7 @@ The complete documetation is [here](http://elasticsearch-lua.readthedocs.io/).
     hosts = {
       { -- Ignoring any of the following hosts parameters is allowed.
         -- The default shall be set
+        connectionstring = "", -- Ignore host, port and protocol and parse this string instead
         protocol = "http",
         host = "localhost",
         port = 9200,

@@ -16,7 +16,8 @@ local Connection = {}
 -------------------------------------------------------------------------------
 -- Declaring instance variables
 -------------------------------------------------------------------------------
-
+-- The FULL connection string should be use
+Connection.connectionstring = nil
 -- The protocol of the connection
 Connection.protocol = nil
 -- The host where the connection should be made
@@ -83,7 +84,7 @@ function Connection:request(method, uri, params, body, timeout)
     request.source = ltn12.source.string(body)
   end
   -- Adding auth to request
-  if self.username ~= nil and self.password ~= nil then
+  if self.username and self.username ~= "" and self.password and self.password ~= "" then
      local authStr, foo = mime.b64(self.username .. ':' .. self.password)
      request.headers['Authorization'] = 'Basic ' .. authStr
   end
@@ -171,6 +172,10 @@ function Connection:buildURI(uri, params)
     port = self.port,
     path = uri
   }
+  if self.connectionstring and self.connectionstring ~= "" then
+    urlComponents = url.parse(self.connectionstring)
+    urlComponents.path = uri
+  end
   if params ~= nil then
     urlComponents.query = self:buildQuery(params)
   end
